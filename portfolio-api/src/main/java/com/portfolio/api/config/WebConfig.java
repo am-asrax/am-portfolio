@@ -15,7 +15,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("http://localhost:[*]") // Allow all localhost ports
+                .allowedOriginPatterns(
+                    "http://localhost:[*]", // Allow all localhost ports
+                    "https://5f24d53f-cb43-496a-a862-fdc3c9abe7a5-00-3tl6t5sjpcmd2.pike.replit.dev",
+                    "https://*.replit.dev",
+                    "https://*"
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
@@ -27,9 +32,12 @@ public class WebConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         
-        // Allow all localhost origins for development - you can restrict this in production
+        // Allow localhost and specific HTTPS endpoint
         config.setAllowCredentials(true);
         config.addAllowedOriginPattern("http://localhost:[*]"); // Allow all localhost ports
+        config.addAllowedOriginPattern("https://5f24d53f-cb43-496a-a862-fdc3c9abe7a5-00-3tl6t5sjpcmd2.pike.replit.dev");
+        config.addAllowedOriginPattern("https://*.replit.dev");
+        config.addAllowedOriginPattern("https://*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setMaxAge(3600L);

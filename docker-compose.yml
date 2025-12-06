@@ -30,6 +30,11 @@ services:
       REDIS_HOSTNAME: ${REDIS_HOSTNAME}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       REDIS_PORT: ${REDIS_PORT}
+
+      # JWT Configuration
+      INTERNAL_JWT_SECRET: ${INTERNAL_JWT_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ALGORITHM: ${JWT_ALGORITHM}
       
     entrypoint: ["/bin/sh", "-c"]
     command: 
@@ -45,12 +50,12 @@ services:
     ports:
       - "8072:8080"
     networks:
-      - market-data-network
+      - am-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 30s
       timeout: 3s
-      retries: ${AM_PORTFOLIO_MAX_RETRIES}
+      retries: 3
     restart: unless-stopped
 
 volumes:
@@ -59,5 +64,5 @@ volumes:
   grafana_data:
 
 networks:
-  market-data-network:
-    driver: bridge
+  am-network:
+    external: true
