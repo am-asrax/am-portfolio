@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/portfolios")
+@RequestMapping("/v1/portfolios")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Portfolio Management", description = "Endpoints for managing user portfolios")

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  * Debug controller for market data API
  */
 @RestController
-@RequestMapping("/api/v1/debug")
+@RequestMapping("/v1/debug")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Debug Tools", description = "Debug endpoints for market data (hidden from production)")

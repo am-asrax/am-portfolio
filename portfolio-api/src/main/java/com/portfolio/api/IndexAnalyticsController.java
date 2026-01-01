@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * REST controller for index analytics
  */
 @RestController
-@RequestMapping("/api/v1/analytics/index")
+@RequestMapping("/v1/analytics/index")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Index Analytics", description = "Advanced analytics endpoints for market indices data")

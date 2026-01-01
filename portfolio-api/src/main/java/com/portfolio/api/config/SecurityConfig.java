@@ -16,7 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Spring Security Configuration for Portfolio Service
  * 
- * Security Model: Zero Trust
+ * Security Model: Zero Trust Aji
  * - Validates JWT signature using INTERNAL_JWT_SECRET
  * - Trusts API Gateway ONLY if it presents a valid, signed Service Token
  * - Protected endpoints require valid JWT with correct signature
@@ -67,12 +67,12 @@ public class SecurityConfig {
 
                                                 // ✅ PROTECTED ENDPOINTS - Require valid JWT
                                                 .requestMatchers(
-                                                                "/api/v1/portfolios/**", // All portfolio operations
-                                                                "/api/v1/portfolio-analytics/**", // Analytics endpoints
-                                                                "/api/v1/market-data/**", // Market data endpoints
-                                                                "/api/v1/market-index/**", // Market index endpoints
-                                                                "/api/v1/index-analytics/**" // Index analytics
-                                                                                             // endpoints
+                                                                "/v1/portfolios/**", // All portfolio operations
+                                                                "/v1/analytics/**", // Analytics endpoints
+                                                                "/v1/market-data/**", // Market data endpoints
+                                                                "/v1/market-index/**", // Market index endpoints
+                                                                "/v1/index-analytics/**" // Index analytics
+                                                                                         // endpoints
                                                 ).authenticated()
 
                                                 // ❌ Deny all other endpoints (fail secure)
