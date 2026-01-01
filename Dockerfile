@@ -19,7 +19,7 @@ ENV SPRING_PROFILES_ACTIVE=docker
 ENV TZ=Asia/Kolkata
 
 # Expose the application port
-EXPOSE 8080
+EXPOSE 8075
 
 # Health check
 # HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
