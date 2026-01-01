@@ -1,5 +1,5 @@
 #mongo
-MONGODB_URL: mongodb://ssd2658:ssd2658@localhost:27017/portfolio?authSource=admin
+MONGODB_URL: mongodb://admin:password123@munishs-mac-mini:27017/portfolio?authSource=admin
 
 #Kafka
 KAFKA_BOOTSTRAP_SERVERS: localhost:9092
@@ -20,7 +20,7 @@ MARKET_INDEX_TOPIC: nse-stock-indices-update
 #Redis
 REDIS_HOSTNAME: localhost
 REDIS_PORT: 6379
-REDIS_PASSWORD: RedisPassword123!
+REDIS_PASSWORD: password123
 
 spring:
   application:
@@ -39,9 +39,6 @@ spring:
       security-protocol: ${KAFKA_SECURITY_PROTOCOL}
       sasl-mechanism: ${KAFKA_SASL_MECHANISM}
       sasl-jaas-config: ${KAFKA_JAAS_CONFIG}
-      ssl-endpoint-identification-algorithm: ""
-      ssl-truststore-location: /etc/ssl/certs/java/cacerts
-      ssl-truststore-password: changeit
   data:
     redis:
       host: ${REDIS_HOSTNAME}
@@ -75,8 +72,8 @@ spring:
           key-prefix: "stock-indices:historical-data:"
           ttl: 129600  # 30 Days in seconds
     mongodb:
-      uri: ${MONGODB_URL}
-      authentication-database: admin
+      uri: ${MONGODB_URI:${MONGODB_URL}}
+      auto-index-creation: true
   # Disable JDBC auto-configuration since we're using MongoDB
   autoconfigure:
     exclude:
@@ -112,10 +109,11 @@ app:
     secret: ${JWT_SECRET:internal-service-super-secret-key-32chars-minimum-change-in-prod}
     algorithm: ${JWT_ALGORITHM:HS256}
   kafka:
+    enabled: false
     portfolio:
       consumer:
         id: ${PORTFOLIO_CONSUMER_ID}
-        enabled: true
+        enabled: false
       topic: ${PORTFOLIO_TOPIC}
     stock:
       consumer:
@@ -129,13 +127,22 @@ app:
       topic: ${MARKET_INDEX_TOPIC}
 
 server:
-  port: 8080
+  port: 8052
   servlet:
     context-path: /
   tomcat:
     max-threads: 20
     min-spare-threads: 10
     max-connections: 200
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
 
 # OpenAPI Documentation
 springdoc:

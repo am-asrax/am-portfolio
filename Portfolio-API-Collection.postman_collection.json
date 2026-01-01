@@ -1,0 +1,362 @@
+{
+    "info": {
+        "_postman_id": "8d3e2f1a-5b4c-6d7e-8f9a-0b1c2d3e4f5a",
+        "name": "Portfolio API Collection",
+        "description": "Collection of API requests for the Portfolio Management System",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Portfolio Management",
+            "item": [
+                {
+                    "name": "Get Portfolio By ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/portfolios/{{portfolioId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "portfolios",
+                                "{{portfolioId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get All Portfolios for User",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/portfolios?userId={{userId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "portfolios"
+                            ],
+                            "query": [
+                                {
+                                    "key": "userId",
+                                    "value": "{{userId}}"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Portfolio List (Basic Info)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/portfolios/list?userId={{userId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "portfolios",
+                                "list"
+                            ],
+                            "query": [
+                                {
+                                    "key": "userId",
+                                    "value": "{{userId}}"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Portfolio Summary",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/portfolios/summary?userId={{userId}}&portfolioId={{portfolioId}}&interval=1D",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "portfolios",
+                                "summary"
+                            ],
+                            "query": [
+                                {
+                                    "key": "userId",
+                                    "value": "{{userId}}"
+                                },
+                                {
+                                    "key": "portfolioId",
+                                    "value": "{{portfolioId}}"
+                                },
+                                {
+                                    "key": "interval",
+                                    "value": "1D"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Portfolio Holdings",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/portfolios/holdings?userId={{userId}}&portfolioId={{portfolioId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "portfolios",
+                                "holdings"
+                            ],
+                            "query": [
+                                {
+                                    "key": "userId",
+                                    "value": "{{userId}}"
+                                },
+                                {
+                                    "key": "portfolioId",
+                                    "value": "{{portfolioId}}"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Portfolio Analysis (Hidden)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/portfolios/{{portfolioId}}/analysis?userId={{userId}}&interval=1D",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "portfolios",
+                                "{{portfolioId}}",
+                                "analysis"
+                            ],
+                            "query": [
+                                {
+                                    "key": "userId",
+                                    "value": "{{userId}}"
+                                },
+                                {
+                                    "key": "interval",
+                                    "value": "1D"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Portfolio Analytics",
+            "item": [
+                {
+                    "name": "Get Advanced Analytics",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"coreIdentifiers\": {\n        \"userId\": \"{{userId}}\"\n    },\n    \"featureToggles\": {\n        \"includePerformance\": true,\n        \"includeRiskMetrics\": true,\n        \"includeSectorAllocation\": true\n    },\n    \"fromDate\": \"2023-01-01\",\n    \"toDate\": \"2023-12-31\",\n    \"timeFrame\": \"DAILY\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/analytics/portfolio/{{portfolioId}}/advanced",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "analytics",
+                                "portfolio",
+                                "{{portfolioId}}",
+                                "advanced"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Market Indices",
+            "item": [
+                {
+                    "name": "Get All Market Indices",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/market-index/all?interval=1D&type=BROAD_MARKET",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "market-index",
+                                "all"
+                            ],
+                            "query": [
+                                {
+                                    "key": "interval",
+                                    "value": "1D"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "BROAD_MARKET"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Index Analytics",
+            "item": [
+                {
+                    "name": "Get Advanced Index Analytics",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"featureToggles\": {\n        \"includePerformance\": true,\n        \"includeRiskMetrics\": true\n    },\n    \"fromDate\": \"2023-01-01\",\n    \"toDate\": \"2023-12-31\",\n    \"timeFrame\": \"DAILY\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/analytics/index/{{indexSymbol}}/advanced",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "analytics",
+                                "index",
+                                "{{indexSymbol}}",
+                                "advanced"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Debug Tools",
+            "item": [
+                {
+                    "name": "Get Raw Market Data",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/debug/market-data/raw?symbols=NIFTY 50,INFY,TCS",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "debug",
+                                "market-data",
+                                "raw"
+                            ],
+                            "query": [
+                                {
+                                    "key": "symbols",
+                                    "value": "NIFTY 50,INFY,TCS"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Raw NSE Indices Data",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/debug/nse-indices/raw?indexSymbol=NIFTY 50",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "debug",
+                                "nse-indices",
+                                "raw"
+                            ],
+                            "query": [
+                                {
+                                    "key": "indexSymbol",
+                                    "value": "NIFTY 50"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Portfolio-Web Test App",
+            "item": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8080",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "user-123",
+            "type": "string"
+        },
+        {
+            "key": "portfolioId",
+            "value": "portfolio-123",
+            "type": "string"
+        },
+        {
+            "key": "indexSymbol",
+            "value": "NIFTY 50",
+            "type": "string"
+        }
+    ]
+}

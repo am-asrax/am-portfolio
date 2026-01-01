@@ -3,6 +3,7 @@ package com.portfolio.api.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -11,7 +12,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
+Microsoft
 /**
  * Spring Security Configuration for Portfolio Service
  * 
@@ -24,58 +25,96 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${app.jwt.secret}")
-    private String jwtSecret;
+        @Value("${app.jwt.secret}")
+        private String jwtSecret;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                // Disable CSRF (stateless REST API with JWT)
-                .csrf(csrf -> csrf.disable())
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                http
+                                // Enable CORS
+                                .cors(Customizer.withDefaults())
+                                // Disable CSRF (stateless REST API with JWT)
+                                .csrf(csrf -> csrf.disable())
 
-                // Stateless session management (no cookies, JWT-based)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                // Debug Filter
+                                .addFilterBefore((request, response, chain) -> {
+                                        org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder
+                                                        .getContext().getAuthentication();
+                                        if (auth != null) {
+                                                System.out.println("DEBUG AUTH: User=" + auth.getName()
+                                                                + " Authorities=" + auth.getAuthorities());
+                                        } else {
+                                                System.out.println(
+                                                                "DEBUG AUTH: No Authentication config found in context (yet)");
+                                        }
+                                        chain.doFilter(request, response);
+                                }, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
 
-                // Configure authorization rules
-                .authorizeHttpRequests(auth -> auth
-                        // ✅ PUBLIC ENDPOINTS - No authentication required
-                        .requestMatchers(
-                                "/actuator/health", // Docker health check
-                                "/actuator/health/live", // Kubernetes liveness probe
-                                "/actuator/health/ready", // Kubernetes readiness probe
-                                "/swagger-ui/**", // Swagger API documentation
-                                "/v3/api-docs/**", // OpenAPI specification
-                                "/v3/api-docs.yaml" // OpenAPI YAML
-                        ).permitAll()
+                                // Stateless session management (no cookies, JWT-based)
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                        // ✅ PROTECTED ENDPOINTS - Require valid JWT
-                        .requestMatchers(
-                                "/api/v1/portfolios/**", // All portfolio operations
-                                "/api/v1/portfolio-analytics/**", // Analytics endpoints
-                                "/api/v1/market-data/**", // Market data endpoints
-                                "/api/v1/market-index/**", // Market index endpoints
-                                "/api/v1/index-analytics/**" // Index analytics endpoints
-                        ).authenticated()
+                                // Configure authorization rules
+                                .authorizeHttpRequests(auth -> auth
+                                                // ✅ PUBLIC ENDPOINTS - No authentication required
+                                                .requestMatchers(
+                                                                "/actuator/**", // All Actuator endpoints for debugging
+                                                                "/swagger-ui/**", // Swagger API documentation
+                                                                "/v3/api-docs/**", // OpenAPI specification
+                                                                "/v3/api-docs.yaml", // OpenAPI YAML
+                                                                "/error" // Error page
+                                                ).permitAll()
 
-                        // ❌ Deny all other endpoints (fail secure)
-                        .anyRequest().denyAll())
+                                                // ✅ PROTECTED ENDPOINTS - Require valid JWT
+                                                .requestMatchers(
+                                                                "/api/v1/portfolios/**", // All portfolio operations
+                                                                "/api/v1/portfolio-analytics/**", // Analytics endpoints
+                                                                "/api/v1/market-data/**", // Market data endpoints
+                                                                "/api/v1/market-index/**", // Market index endpoints
+                                                                "/api/v1/index-analytics/**" // Index analytics
+                                                                                             // endpoints
+                                                ).authenticated()
 
-                // ✅ ZERO TRUST: Enforce JWT Validation
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())))
+                                                // ❌ Deny all other endpoints (fail secure)
+                                                .anyRequest().denyAll())
 
-                // Disable HTTP Basic authentication (not needed, using JWT)
-                .httpBasic(basic -> basic.disable())
+                                // ✅ ZERO TRUST: Enforce JWT Validation
+                                .oauth2ResourceServer(oauth2 -> oauth2
+                                                .jwt(jwt -> jwt
+                                                                .decoder(jwtDecoder())
+                                                                .jwtAuthenticationConverter(
+                                                                                new com.portfolio.api.security.CustomJwtConverter())))
 
-                // Disable form login (API Gateway handles authentication)
-                .formLogin(form -> form.disable());
+                                // Disable HTTP Basic authentication (not needed, using JWT)
+                                .httpBasic(basic -> basic.disable())
 
-        return http.build();
-    }
+                                // Disable form login (API Gateway handles authentication)
+                                .formLogin(form -> form.disable());
 
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        // Use HS256 (Symmetric Key) to match Auth Service
-        SecretKey key = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(key).build();
-    }
+                return http.build();
+        }
+
+        @Bean
+        public JwtDecoder jwtDecoder() {
+                // Use HS256 (Symmetric Key) to match Auth Service
+                SecretKey key = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
+                return NimbusJwtDecoder.withSecretKey(key).build();
+        }
+
+        // Custom converter is now used directly in filterChain
+
+        @Bean
+        public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
+                org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
+                configuration.setAllowedOriginPatterns(java.util.Collections.singletonList("*"));
+                configuration.setAllowedMethods(
+                                java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+                configuration.setAllowedHeaders(java.util.Collections.singletonList("*"));
+                configuration.setAllowCredentials(true);
+
+                org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", configuration);
+                return source;
+        }
+
 }

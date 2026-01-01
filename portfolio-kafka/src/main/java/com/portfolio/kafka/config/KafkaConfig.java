@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name = "app.kafka.enabled", havingValue = "true", matchIfMissing = false)
 public class KafkaConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
@@ -29,10 +30,10 @@ public class KafkaConfig {
 
     @Value("${spring.kafka.properties.security-protocol}")
     private String securityProtocol;
-    
+
     @Value("${spring.kafka.properties.sasl-mechanism}")
     private String saslMechanism;
-    
+
     @Value("${spring.kafka.properties.sasl-jaas-config}")
     private String jaasConfig;
 
@@ -41,7 +42,7 @@ public class KafkaConfig {
 
     // @Bean
     // public NewTopic createTopic() {
-    //     return new NewTopic(topicName, 1, (short) 1);
+    // return new NewTopic(topicName, 1, (short) 1);
     // }
 
     @Bean
@@ -50,7 +51,7 @@ public class KafkaConfig {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        if(jaasConfig != null && !jaasConfig.isEmpty()) {
+        if (jaasConfig != null && !jaasConfig.isEmpty()) {
             props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, securityProtocol);
             props.put(SaslConfigs.SASL_MECHANISM, saslMechanism);
             props.put(SaslConfigs.SASL_JAAS_CONFIG, jaasConfig);
@@ -75,7 +76,6 @@ public class KafkaConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        
 
         return new DefaultKafkaConsumerFactory<>(props);
     }

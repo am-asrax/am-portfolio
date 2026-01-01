@@ -27,29 +27,30 @@ import org.springframework.web.bind.annotation.*;
 public class PortfolioAnalyticsController {
 
     private final PortfolioAnalyticsFacade portfolioAnalyticsFacade;
-    
+
     /**
-     * Advanced analytics endpoint that combines multiple analytics features with timeframe support
+     * Advanced analytics endpoint that combines multiple analytics features with
+     * timeframe support
+     * 
      * @param portfolioId The portfolio ID to analyze
-     * @param request The advanced analytics request parameters
+     * @param request     The advanced analytics request parameters
      * @return Combined analytics data based on requested components
      */
     @Operation(summary = "Get advanced portfolio analytics", description = "Retrieves comprehensive analytics for a portfolio with customizable components and timeframes")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Analytics data retrieved successfully",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = AdvancedAnalyticsResponse.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid request parameters"),
-        @ApiResponse(responseCode = "404", description = "Portfolio not found")
+            @ApiResponse(responseCode = "200", description = "Analytics data retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AdvancedAnalyticsResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request parameters"),
+            @ApiResponse(responseCode = "404", description = "Portfolio not found")
     })
     @PostMapping("/{portfolioId}/advanced")
     public ResponseEntity<AdvancedAnalyticsResponse> getAdvancedAnalytics(
             @PathVariable String portfolioId,
             @RequestBody AdvancedAnalyticsRequest request) {
-        log.info("REST request for advanced analytics on portfolio: {} with timeframe: {} to {}", 
+        log.info("REST request for advanced analytics on portfolio: {} with timeframe: {} to {}",
                 portfolioId, request.getTimeFrame());
 
         request.getCoreIdentifiers().setPortfolioId(portfolioId);
-        
+
         return ResponseEntity.ok(portfolioAnalyticsFacade.calculateAdvancedAnalytics(request));
     }
 }

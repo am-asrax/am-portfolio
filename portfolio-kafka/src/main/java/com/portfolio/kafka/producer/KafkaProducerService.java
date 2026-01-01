@@ -13,7 +13,6 @@ import com.portfolio.kafka.model.PortfolioUpdateEvent;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class KafkaProducerService {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
@@ -21,27 +20,36 @@ public class KafkaProducerService {
     @Value("${app.kafka.portfolio.topic}")
     private String topicName;
 
+    public KafkaProducerService(
+            @org.springframework.beans.factory.annotation.Autowired(required = false) KafkaTemplate<String, Object> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     public void sendMessage(PortfolioUpdateEvent portfolioUpdateEvent) {
+        if (kafkaTemplate == null) {
+            log.warn("Kafka is disabled. Message not sent: {}", portfolioUpdateEvent);
+            return;
+        }
+
         RecordHeaders headers = new RecordHeaders();
         headers.add("id", portfolioUpdateEvent.getId().toString().getBytes());
         headers.add("userId", portfolioUpdateEvent.getUserId().getBytes());
         headers.add("timestamp", String.valueOf(portfolioUpdateEvent.getTimestamp()).getBytes());
 
-        ProducerRecord<String, Object> record = new ProducerRecord<>(topicName, null, 
-            portfolioUpdateEvent.getId().toString(), portfolioUpdateEvent, headers);
-        
+        ProducerRecord<String, Object> record = new ProducerRecord<>(topicName, null,
+                portfolioUpdateEvent.getId().toString(), portfolioUpdateEvent, headers);
+
         kafkaTemplate.send(record)
-            .whenComplete((result, ex) -> {
-                if (ex == null) {
-                    log.info("Message sent successfully to topic: {}, partition: {}, offset: {}", 
-                        result.getRecordMetadata().topic(),
-                        result.getRecordMetadata().partition(),
-                        result.getRecordMetadata().offset());
-                } else {
-                    log.error("Failed to send message", ex);
-                }
-            });
+                .whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        log.info("Message sent successfully to topic: {}, partition: {}, offset: {}",
+                                result.getRecordMetadata().topic(),
+                                result.getRecordMetadata().partition(),
+                                result.getRecordMetadata().offset());
+                    } else {
+                        log.error("Failed to send message", ex);
+                    }
+                });
     }
 
 }
