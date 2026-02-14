@@ -1,5 +1,5 @@
 #mongo
-MONGODB_URL: mongodb://admin:password123@munishs-mac-mini:27017/portfolio?authSource=admin
+MONGODB_URL: mongodb://admin:password123@localhost:27017/portfolio?authSource=admin
 
 #Kafka
 KAFKA_BOOTSTRAP_SERVERS: localhost:9092
@@ -146,10 +146,10 @@ management:
 
 market-data:
   api:
-    base-url: ${AM_MARKET_DATA_API_URL:https://am.munish.org/market-api}
-    ohlc-endpoint: /api/v1/market-data/ohlc
-    historical-data-endpoint: /api/v1/market-data/historical
-    nse-indices-endpoint: /api/v1/market-data/indices/history
+    base-url: ${AM_MARKET_DATA_API_URL:https://am.munish.org/api}
+    ohlc-endpoint: /v1/market-data/ohlc
+    historical-data-endpoint: /v1/market-data/historical
+    nse-indices-endpoint: /v1/market-data/indices/history
     connection-timeout: 10000
     read-timeout: 10000
     max-retry-attempts: 2

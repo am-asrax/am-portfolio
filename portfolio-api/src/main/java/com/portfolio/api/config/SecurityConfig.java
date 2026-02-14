@@ -36,20 +36,6 @@ public class SecurityConfig {
                                 // Disable CSRF (stateless REST API with JWT)
                                 .csrf(csrf -> csrf.disable())
 
-                                // Debug Filter
-                                .addFilterBefore((request, response, chain) -> {
-                                        org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder
-                                                        .getContext().getAuthentication();
-                                        if (auth != null) {
-                                                System.out.println("DEBUG AUTH: User=" + auth.getName()
-                                                                + " Authorities=" + auth.getAuthorities());
-                                        } else {
-                                                System.out.println(
-                                                                "DEBUG AUTH: No Authentication config found in context (yet)");
-                                        }
-                                        chain.doFilter(request, response);
-                                }, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
-
                                 // Stateless session management (no cookies, JWT-based)
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
