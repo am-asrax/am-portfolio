@@ -1,0 +1,264 @@
+{
+    "fund_metadata": {
+      "fund_name": "HDFC Defence Fund",
+      "scheme_type": "Open-ended Equity Scheme",
+      "investment_focus": "Defence & Allied Sector Companies",
+      "portfolio_date": "2025-04-30",
+      "benchmark": "Nifty India Defence TRI"
+    },
+    "stock_allocations": [
+      {
+        "isin": "INE066F01020",
+        "security_name": "Hindustan Aeronautics Limited",
+        "industry": "Aerospace & Defense",
+        "quantity": 2487497,
+        "market_value_lakhs": 111636.38,
+        "nav_percentage": 20.34
+      },
+      {
+        "isin": "INE263A01024",
+        "security_name": "Bharat Electronics Ltd.",
+        "industry": "Aerospace & Defense",
+        "quantity": 33792857,
+        "market_value_lakhs": 106143.36,
+        "nav_percentage": 19.34
+      },
+      {
+        "isin": "INE343H01029",
+        "security_name": "Solar Industries India Ltd.",
+        "industry": "Chemicals & Petrochemicals",
+        "quantity": 604973,
+        "market_value_lakhs": 79687.04,
+        "nav_percentage": 14.52
+      },
+      {
+        "isin": "INE258A01016",
+        "security_name": "BEML Limited",
+        "industry": "Agricultural, Commercial & Construction Vehicles",
+        "quantity": 1614909,
+        "market_value_lakhs": 51095.72,
+        "nav_percentage": 9.31
+      },
+      {
+        "isin": "INE386C01029",
+        "security_name": "Astra Microwave Products Ltd.",
+        "industry": "Aerospace & Defense",
+        "quantity": 3666781,
+        "market_value_lakhs": 30384.78,
+        "nav_percentage": 5.54
+      },
+      {
+        "isin": "INE055S01018",
+        "security_name": "Cyient DLM Limited",
+        "industry": "Aerospace & Defense",
+        "quantity": 5610329,
+        "market_value_lakhs": 25092.2,
+        "nav_percentage": 4.57
+      },
+      {
+        "isin": "INE018A01030",
+        "security_name": "Larsen and Toubro Ltd.",
+        "industry": "Construction",
+        "quantity": 511599,
+        "market_value_lakhs": 17092.52,
+        "nav_percentage": 3.11
+      },
+      {
+        "isin": "INE863B01029",
+        "security_name": "Premier Explosives Ltd.",
+        "industry": "Chemicals & Petrochemicals",
+        "quantity": 3648701,
+        "market_value_lakhs": 15185.89,
+        "nav_percentage": 2.77
+      },
+      {
+        "isin": "INE864I01014",
+        "security_name": "MTAR Technologies Limited",
+        "industry": "Aerospace & Defense",
+        "quantity": 1061691,
+        "market_value_lakhs": 15089.81,
+        "nav_percentage": 2.75
+      },
+      {
+        "isin": "INE646L01027",
+        "security_name": "InterGlobe Aviation Ltd.",
+        "industry": "Transport Services",
+        "quantity": 265000,
+        "market_value_lakhs": 13911.18,
+        "nav_percentage": 2.54
+      },
+      {
+        "isin": "INE0LCL01028",
+        "security_name": "Avalon Technologies Limited",
+        "industry": "Electrical Equipment",
+        "quantity": 1356183,
+        "market_value_lakhs": 11678.09,
+        "nav_percentage": 2.13
+      },
+      {
+        "isin": "INE211R01019",
+        "security_name": "Power Mech Projects Ltd.",
+        "industry": "Construction",
+        "quantity": 308219,
+        "market_value_lakhs": 8073.49,
+        "nav_percentage": 1.47
+      },
+      {
+        "isin": "INE294Z01018",
+        "security_name": "The Anup Engineering Limited",
+        "industry": "Industrial Manufacturing",
+        "quantity": 253709,
+        "market_value_lakhs": 7584.38,
+        "nav_percentage": 1.38
+      },
+      {
+        "isin": "INE285K01026",
+        "security_name": "Techno Electric & Engin. Co. Ltd.",
+        "industry": "Construction",
+        "quantity": 685586,
+        "market_value_lakhs": 7291.21,
+        "nav_percentage": 1.33
+      },
+      {
+        "isin": "INE931S01010",
+        "security_name": "Adani Energy Solutions Limited",
+        "industry": "Power",
+        "quantity": 489552,
+        "market_value_lakhs": 4404.25,
+        "nav_percentage": 0.8
+      },
+      {
+        "isin": "INE320B01020",
+        "security_name": "Centum Electronics Ltd.",
+        "industry": "Industrial Manufacturing",
+        "quantity": 260497,
+        "market_value_lakhs": 4366.71,
+        "nav_percentage": 0.8
+      },
+      {
+        "isin": "INE0OAF01028",
+        "security_name": "JNK India Limited",
+        "industry": "Industrial Manufacturing",
+        "quantity": 925885,
+        "market_value_lakhs": 3263.74,
+        "nav_percentage": 0.59
+      },
+      {
+        "isin": "INE0B9K01025",
+        "security_name": "Bansal Wire Industries Limited",
+        "industry": "Industrial Products",
+        "quantity": 842441,
+        "market_value_lakhs": 3012.15,
+        "nav_percentage": 0.55
+      },
+      {
+        "isin": "INE0N2P01017",
+        "security_name": "Rishabh Instruments Limited",
+        "industry": "Electrical Equipment",
+        "quantity": 1130056,
+        "market_value_lakhs": 2892.6,
+        "nav_percentage": 0.53
+      },
+      {
+        "isin": "INE184O01015",
+        "security_name": "Diffusion Engineers Limited",
+        "industry": "Industrial Products",
+        "quantity": 847772,
+        "market_value_lakhs": 2035.08,
+        "nav_percentage": 0.37
+      },
+      {
+        "isin": "INE841L01016",
+        "security_name": "DEE Development Engineers Limited",
+        "industry": "Industrial Manufacturing",
+        "quantity": 719590,
+        "market_value_lakhs": 1610.66,
+        "nav_percentage": 0.29
+      },
+      {
+        "isin": "INE349Y01013",
+        "security_name": "IDEAFORGE TECHNOLOGY LIMITED",
+        "industry": "Aerospace & Defense",
+        "quantity": 318313,
+        "market_value_lakhs": 1201.31,
+        "nav_percentage": 0.22
+      }
+    ],
+    "portfolio_summary": {
+      "total_value_lakhs": 548727.48,
+      "cash_equivalents": {
+        "treps": 26829.88,
+        "net_current_assets": -834.95
+      },
+      "industry_allocations": [
+        {
+          "industry": "Aerospace & Defense",
+          "percentage": 52.76
+        },
+        {
+          "industry": "Chemicals & Petrochemicals",
+          "percentage": 17.29
+        },
+        {
+          "industry": "Agricultural, Commercial & Construction Vehicles",
+          "percentage": 9.31
+        },
+        {
+          "industry": "Construction",
+          "percentage": 5.91
+        },
+        {
+          "industry": "Industrial Manufacturing",
+          "percentage": 3.06
+        },
+        {
+          "industry": "Electrical Equipment",
+          "percentage": 2.66
+        },
+        {
+          "industry": "Transport Services",
+          "percentage": 2.54
+        },
+        {
+          "industry": "Industrial Products",
+          "percentage": 0.92
+        },
+        {
+          "industry": "Power",
+          "percentage": 0.8
+        },
+        {
+          "industry": "Cash, Cash Equivalents and Net Current Assets",
+          "percentage": 4.75
+        }
+      ]
+    },
+    "nav_history": {
+      "current_month": {
+        "date": "2025-04-30",
+        "idcw_plan": 20.955,
+        "idcw_direct_plan": 21.432,
+        "growth_plan": 20.955,
+        "growth_direct_plan": 21.432
+      },
+      "previous_month": {
+        "date": "2025-03-31",
+        "idcw_plan": 19.729,
+        "idcw_direct_plan": 20.162,
+        "growth_plan": 19.729,
+        "growth_direct_plan": 20.162
+      }
+    },
+    "key_metrics": {
+      "portfolio_turnover_ratio": 9.27,
+      "default_exposures": 0.0,
+      "foreign_investments": 0.0,
+      "derivative_exposures": 0.0,
+      "illiquid_equity": 0.0
+    },
+    "disclaimers": {
+      "riskometer": "Based on Scheme Portfolio and Portfolio Benchmark",
+      "idcw_definition": "Income Distribution cum Capital Withdrawal",
+      "amfi_classification": "Industry Classification as recommended by AMFI"
+    }
+  }

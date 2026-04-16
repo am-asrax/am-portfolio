@@ -1,0 +1,8 @@
+README.md
+setup.py
+src/finance_ai/__init__.py
+src/finance_ai.egg-info/PKG-INFO
+src/finance_ai.egg-info/SOURCES.txt
+src/finance_ai.egg-info/dependency_links.txt
+src/finance_ai.egg-info/requires.txt
+src/finance_ai.egg-info/top_level.txt
