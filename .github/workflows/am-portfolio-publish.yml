@@ -1,0 +1,42 @@
+name: AM Portfolio Publish
+
+on:
+  push:
+    branches: ["main", "develop", "test/**", "feature/**"]
+    paths:
+      - 'portfolio-service/**'
+      - 'portfolio-api/**'
+      - 'portfolio-app/**'
+      - 'portfolio-analytics/**'
+      - 'portfolio-market-data/**'
+      - 'portfolio-model/**'
+      - 'portfolio-kafka/**'
+      - 'portfolio-redis/**'
+      - 'helm/**'
+      - 'pom.xml'
+  pull_request:
+    branches: ["main", "develop", "test/**", "feature/**"]
+    paths:
+      - 'portfolio-service/**'
+      - 'portfolio-api/**'
+      - 'helm/**'
+      - 'pom.xml'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish AM Portfolio
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    uses: AM-Portfolio/am-pipelines/.github/workflows/central-build-publish.yml@main
+    with:
+      language: 'java'
+      working_directory: '.' 
+      image_name: 'am-portfolio'
+      build_context: '.'
+      preprod_namespace: 'dev'
+      prod_namespace: 'prod'            
+      deploy_prod: true
+    secrets: inherit
