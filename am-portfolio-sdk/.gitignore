@@ -1,0 +1,12 @@
+# OpenAPI Generator temp files
+gen-config-*.json
+node_modules/
+.openapi-generator/
+openapitools/
+
+# Build artifacts (keep source, ignore build output)
+java-portfolio-sdk/target/
+python-portfolio-sdk/dist/
+python-portfolio-sdk/*.egg-info/
+flutter-portfolio-sdk/.dart_tool/
+flutter-portfolio-sdk/build/

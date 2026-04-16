@@ -1,0 +1,98 @@
+name: AM SDK Publish
+
+on:
+  push:
+    paths:
+      - 'am-portfolio-sdk/**'
+  pull_request:
+    paths:
+      - 'am-portfolio-sdk/**'
+
+jobs:
+  # Detect which SDK paths changed
+  detect-changes:
+    name: Detect Changed SDKs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      java-portfolio:    ${{ steps.check.outputs.java-portfolio }}
+      python-portfolio:  ${{ steps.check.outputs.python-portfolio }}
+      flutter-portfolio: ${{ steps.check.outputs.flutter-portfolio }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect which SDK paths changed
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+          fi
+
+          # Handle first push to new branch or missing BASE
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            echo "BASE is empty or zero, comparing latest commit with HEAD"
+            CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || git ls-files)
+          else
+            echo "Comparing $BASE with $HEAD"
+            CHANGED=$(git diff --name-only "$BASE" "$HEAD")
+          fi
+
+          echo "=== Files changed in this push ==="
+          echo "$CHANGED"
+          echo "==================================="
+
+          check() { echo "$CHANGED" | grep -q "^$1" && echo 'true' || echo 'false'; }
+
+          echo "java-portfolio=$(check 'am-portfolio-sdk/java-portfolio-sdk/')"     >> $GITHUB_OUTPUT
+          echo "python-portfolio=$(check 'am-portfolio-sdk/python-portfolio-sdk/')" >> $GITHUB_OUTPUT
+          echo "flutter-portfolio=$(check 'am-portfolio-sdk/flutter-portfolio-sdk/')" >> $GITHUB_OUTPUT
+
+  # --- Portfolio SDKs ---
+  publish-java-portfolio:
+    name: Publish Java Portfolio SDK
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.java-portfolio == 'true' }}
+    permissions:
+      contents: write
+      packages: write
+    uses: AM-Portfolio/am-pipelines/.github/workflows/publish-library.yml@main
+    with:
+      language: 'java'
+      working_directory: 'am-portfolio-sdk/java-portfolio-sdk'
+      sdk_name: 'java-portfolio-sdk'
+    secrets: inherit
+
+  publish-python-portfolio:
+    name: Publish Python Portfolio SDK
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.python-portfolio == 'true' }}
+    permissions:
+      contents: write
+      packages: write
+    uses: AM-Portfolio/am-pipelines/.github/workflows/publish-library.yml@main
+    with:
+      language: 'python'
+      working_directory: 'am-portfolio-sdk/python-portfolio-sdk'
+      sdk_name: 'python-portfolio-sdk'
+    secrets: inherit
+
+  publish-flutter-portfolio:
+    name: Publish Flutter Portfolio SDK
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.flutter-portfolio == 'true' }}
+    permissions:
+      contents: write
+      packages: write
+    uses: AM-Portfolio/am-pipelines/.github/workflows/publish-library.yml@main
+    with:
+      language: 'flutter'
+      working_directory: 'am-portfolio-sdk/flutter-portfolio-sdk'
+      sdk_name: 'flutter-portfolio-sdk'
+    secrets: inherit

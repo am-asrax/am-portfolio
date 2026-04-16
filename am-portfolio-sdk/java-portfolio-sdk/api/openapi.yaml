@@ -1,0 +1,190 @@
+openapi: 3.0.1
+info:
+  description: API for managing investment portfolios and market indices.
+  title: AM Portfolio API
+  version: 1.0.0
+servers:
+- description: Local Portfolio Service
+  url: http://localhost:8060
+paths:
+  /api/v1/portfolios:
+    get:
+      operationId: getPortfolios
+      parameters:
+      - explode: true
+        in: query
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/PortfolioModelV1"
+                type: array
+          description: OK
+      summary: Get all portfolios for a user
+      tags:
+      - Portfolio
+      x-accepts:
+      - application/json
+  /api/v1/portfolios/{portfolioId}:
+    get:
+      operationId: getPortfolioById
+      parameters:
+      - explode: false
+        in: path
+        name: portfolioId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PortfolioModelV1"
+          description: OK
+      summary: Get portfolio by ID
+      tags:
+      - Portfolio
+      x-accepts:
+      - application/json
+  /api/v1/portfolios/{portfolioId}/analysis:
+    get:
+      operationId: getPortfolioAnalysis
+      parameters:
+      - explode: false
+        in: path
+        name: portfolioId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: interval
+        required: false
+        schema:
+          $ref: "#/components/schemas/TimeInterval"
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PortfolioAnalysis"
+          description: OK
+      summary: Get portfolio analysis
+      tags:
+      - Portfolio
+      x-accepts:
+      - application/json
+  /api/v1/market-index/all:
+    get:
+      operationId: getAllMarketIndices
+      parameters:
+      - explode: true
+        in: query
+        name: interval
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/IndexIndices"
+                type: array
+          description: OK
+      summary: Get all market indices
+      tags:
+      - Market Index
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    PortfolioModelV1:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        description: description
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        userId: userId
+      properties:
+        id:
+          format: uuid
+          type: string
+        userId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    PortfolioAnalysis:
+      example:
+        lastUpdated: 2000-01-23T04:56:07.000+00:00
+        portfolioId: portfolioId
+        currentInterval: 1D
+      properties:
+        portfolioId:
+          type: string
+        lastUpdated:
+          format: date-time
+          type: string
+        currentInterval:
+          $ref: "#/components/schemas/TimeInterval"
+      type: object
+    IndexIndices:
+      example:
+        indexSymbol: indexSymbol
+        index: index
+        key: key
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        key:
+          type: string
+        index:
+          type: string
+        indexSymbol:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+      type: object
+    TimeInterval:
+      enum:
+      - 1D
+      - 1W
+      - 1M
+      - 1Y
+      - ALL
+      type: string
+

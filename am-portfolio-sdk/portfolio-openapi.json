@@ -1,0 +1,150 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AM Portfolio API",
+    "description": "API for managing investment portfolios and market indices.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8060",
+      "description": "Local Portfolio Service"
+    }
+  ],
+  "paths": {
+    "/api/v1/portfolios": {
+      "get": {
+        "tags": ["Portfolio"],
+        "summary": "Get all portfolios for a user",
+        "operationId": "getPortfolios",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/PortfolioModelV1" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/portfolios/{portfolioId}": {
+      "get": {
+        "tags": ["Portfolio"],
+        "summary": "Get portfolio by ID",
+        "operationId": "getPortfolioById",
+        "parameters": [
+          {
+            "name": "portfolioId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PortfolioModelV1" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/portfolios/{portfolioId}/analysis": {
+      "get": {
+        "tags": ["Portfolio"],
+        "summary": "Get portfolio analysis",
+        "operationId": "getPortfolioAnalysis",
+        "parameters": [
+          { "name": "portfolioId", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "userId", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "interval", "in": "query", "schema": { "$ref": "#/components/schemas/TimeInterval" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PortfolioAnalysis" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/market-index/all": {
+      "get": {
+        "tags": ["Market Index"],
+        "summary": "Get all market indices",
+        "operationId": "getAllMarketIndices",
+        "parameters": [
+          { "name": "interval", "in": "query", "schema": { "type": "string" } },
+          { "name": "type", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IndexIndices" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PortfolioModelV1": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "userId": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "PortfolioAnalysis": {
+        "type": "object",
+        "properties": {
+          "portfolioId": { "type": "string" },
+          "lastUpdated": { "type": "string", "format": "date-time" },
+          "currentInterval": { "$ref": "#/components/schemas/TimeInterval" }
+        }
+      },
+      "IndexIndices": {
+        "type": "object",
+        "properties": {
+          "key": { "type": "string" },
+          "index": { "type": "string" },
+          "indexSymbol": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        }
+      },
+      "TimeInterval": {
+        "type": "string",
+        "enum": ["1D", "1W", "1M", "1Y", "ALL"]
+      }
+    }
+  }
+}
