@@ -104,6 +104,8 @@ nse:
     - NIFTY PSU BANK
 
 app:
+  jwt:
+    secret: "dummy-secret-for-local-sdk-generation-only"
   kafka:
     portfolio:
       consumer:
@@ -136,9 +138,8 @@ market-data:
     base-url: http://localhost:8020
 
 # OpenAPI Documentation
-app:
-  jwt:
-    secret: "dummy-secret-for-local-sdk-generation-only"
+# JWT Secret for local testing
+
 
 springdoc:
   api-docs:

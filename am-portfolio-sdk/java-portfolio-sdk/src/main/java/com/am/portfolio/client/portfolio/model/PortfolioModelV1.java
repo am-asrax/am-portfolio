@@ -41,7 +41,7 @@ import com.am.portfolio.client.portfolio.invoker.ApiClient;
   PortfolioModelV1.JSON_PROPERTY_DESCRIPTION,
   PortfolioModelV1.JSON_PROPERTY_CREATED_AT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-16T21:43:29.682309+05:30[Asia/Calcutta]", comments = "Generator version: 7.18.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-17T15:27:19.302465900+05:30[Asia/Calcutta]", comments = "Generator version: 7.18.0")
 public class PortfolioModelV1 {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable

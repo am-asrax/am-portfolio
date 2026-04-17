@@ -4,7 +4,7 @@ AM Portfolio API
 
 - API version: 1.0.0
 
-- Build date: 2026-04-16T21:43:29.682309+05:30[Asia/Calcutta]
+- Build date: 2026-04-17T15:27:19.302465900+05:30[Asia/Calcutta]
 
 - Generator version: 7.18.0
 

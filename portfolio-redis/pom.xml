@@ -23,7 +23,7 @@
      <dependency>
           <groupId>com.am.common</groupId>
           <artifactId>am-common-investment-model</artifactId>
-          <version>${am.common.version}</version>
+          <version>${am.investment.version}</version>
         </dependency>
         <dependency>
             <groupId>com.portfolio</groupId>

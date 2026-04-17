@@ -48,7 +48,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-16T21:43:29.682309+05:30[Asia/Calcutta]", comments = "Generator version: 7.18.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-17T15:27:19.302465900+05:30[Asia/Calcutta]", comments = "Generator version: 7.18.0")
 public class PortfolioApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.

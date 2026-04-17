@@ -16,20 +16,20 @@ function Invoke-OpenApiGen {
         New-Item -ItemType Directory -Path $OutDir -Force | Out-Null
     }
 
-    # Prepare config string
-    $configList = @()
-    foreach ($key in $Config.Keys) {
-        $configList += "$key=$($Config[$key])"
-    }
-    $additionalProps = $configList -join ","
+    # Prepare config file to avoid shell argument splitting issues
+    $configPath = Join-Path $OutDir "generator-config.json"
+    $Config | ConvertTo-Json | Set-Content -Path $configPath
 
     # Run OpenAPI Generator via npx
     npx -y @openapitools/openapi-generator-cli generate `
         -i $Spec `
         -g $Generator `
         -o $OutDir `
-        --additional-properties $additionalProps `
+        -c $configPath `
         --skip-validate-spec
+
+    # Cleanup config file
+    Remove-Item $configPath -Force
 
     Write-Host "[CORE] $Label generation completed." -ForegroundColor Green
 }

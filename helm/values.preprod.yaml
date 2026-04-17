@@ -21,7 +21,7 @@ deployment:
 # Service Configuration
 service:
   type: ClusterIP
-  port: 8080
+  port: 8060
 
 # Ingress Configuration
 ingress:
@@ -62,5 +62,5 @@ monitoring:
   enabled: true
   prometheus:
     scrape: true
-    port: "8080"
+    port: "8060"
     path: "/actuator/prometheus"
