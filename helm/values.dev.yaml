@@ -63,3 +63,6 @@ monitoring:
     scrape: true
     port: "8060"
     path: "/actuator/prometheus"
+
+# Trigger pipeline test comment
+
