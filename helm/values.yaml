@@ -1,0 +1,19 @@
+# Base Environment Configuration
+config:
+  marketData:
+    maxRetries: 3
+    retryDelayMs: 1000
+    threadPoolSize: 5
+    threadQueueCapacity: 10
+    maxAgeMinutes: 15
+
+service:
+  type: ClusterIP
+  port: 8060
+
+monitoring:
+  enabled: true
+  prometheus:
+    scrape: true
+    port: "8060"
+    path: "/actuator/prometheus"
