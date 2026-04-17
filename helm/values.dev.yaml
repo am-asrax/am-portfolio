@@ -64,5 +64,5 @@ monitoring:
     port: "8060"
     path: "/actuator/prometheus"
 
-# Trigger pipeline test comment
+# Trigger pipeline test comment 2 - testing parallel deploy change
 
