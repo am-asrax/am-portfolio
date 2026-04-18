@@ -85,10 +85,11 @@ async function sync() {
     let aggregatedVaultSecrets = {};
 
     console.log('[VAULT] Beginning multi-path scan...');
-    for (const subpath of VAULT_SUBPATHS) {
-        const data = await fetchFromVaultPath(subpath);
+    const vaultDataResults = await Promise.all(VAULT_SUBPATHS.map(subpath => fetchFromVaultPath(subpath)));
+    vaultDataResults.forEach(data => {
         aggregatedVaultSecrets = { ...aggregatedVaultSecrets, ...data };
-    }
+    });
+
     
     const finalEnv = { ...existingEnv, ...aggregatedVaultSecrets };
 
