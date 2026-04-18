@@ -24,8 +24,35 @@ on:
   workflow_dispatch:
 
 jobs:
+  setup:
+    name: Vault Sync & Setup
+    runs-on: ["docker-runner-github-runner-7fdbd4c5b9-c58j6"] # Specifically targeting the requested runner
+    outputs:
+      env_keys: ${{ steps.sync.outputs.env_keys }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Sync Secrets from Vault
+        id: sync
+        env:
+          VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+          VAULT_URI: "https://vault-local.munish.org"
+        run: |
+          npm install
+          npm run sync:secrets
+          # Exporting secrets to GITHUB_ENV or as outputs if needed by the reusable workflow
+          # However, 'secrets: inherit' usually handles it if the keys are in GH Secrets.
+          # Here we are using Vault as the source.
+
   publish:
     name: Publish AM Portfolio
+    needs: setup
     permissions:
       contents: read
       packages: write

@@ -14,6 +14,10 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:build": "docker build -t am-portfolio .",
+    "sync:secrets": "node scripts/vault-sync.js",
+    "prebuild": "npm run sync:secrets",
+    "predev": "npm run sync:secrets",
+    "check:infra": "node scripts/vault-sync.js",
     "dev": "npx -y concurrently -n \"docker,app\" -c \"magenta,blue\" \"npm run docker:up\" \"npm run run:app\"",
     "clean": "mvn clean"
   },

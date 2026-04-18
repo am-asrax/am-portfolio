@@ -62,3 +62,5 @@ application-*.yml
 *.orig
 
 .env
+
+am-portfolio-sdk/Ci-cd-implementation.md
