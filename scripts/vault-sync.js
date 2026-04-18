@@ -3,6 +3,7 @@ const path = require('path');
 const net = require('net');
 
 // Configuration
+// Dummy commit to trigger pipeline test
 const ENV_PATH = path.join(__dirname, '..', '.env');
 const VAULT_URI = process.env.VAULT_URI || 'https://vault-local.munish.org';
 const VAULT_TOKEN = process.env.VAULT_TOKEN;
