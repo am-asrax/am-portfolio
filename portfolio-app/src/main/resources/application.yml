@@ -1,5 +1,5 @@
 #mongo
-MONGODB_URL: mongodb://ssd2658:ssd2658@mongodb.dev.svc.cluster.local:27017/portfolio?authSource=admin
+MONGODB_URL: ${MONGODB_URL}
 
 #Kafka
 KAFKA_BOOTSTRAP_SERVERS: localhost:9092

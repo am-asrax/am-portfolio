@@ -1,0 +1,23 @@
+{
+  "name": "am-portfolio",
+  "version": "1.0.0",
+  "description": "AM Portfolio Orchestrator for local development and automation",
+  "scripts": {
+    "build": "npx -y dotenv-cli -- mvn clean install -DskipTests -s settings.xml",
+    "build:quick": "npx -y dotenv-cli -- mvn clean compile -s settings.xml",
+    "test": "npx -y dotenv-cli -- mvn test -s settings.xml",
+    "run:app": "cd portfolio-app && npx -y dotenv-cli -e ../.env -- mvn spring-boot:run",
+    "sdk:all": "pwsh ./am-portfolio-sdk/generate_multi_api_sdks.ps1",
+    "sdk:java": "pwsh -Command \". ./am-portfolio-sdk/scripts/generator/Java.ps1; Invoke-JavaSdkGen\"",
+    "sdk:python": "pwsh -Command \". ./am-portfolio-sdk/scripts/generator/Python.ps1; Invoke-PythonSdkGen\"",
+    "sdk:flutter": "pwsh -Command \". ./am-portfolio-sdk/scripts/generator/Flutter.ps1; Invoke-FlutterSdkGen\"",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker build -t am-portfolio .",
+    "dev": "npx -y concurrently -n \"docker,app\" -c \"magenta,blue\" \"npm run docker:up\" \"npm run run:app\"",
+    "clean": "mvn clean"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
