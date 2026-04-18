@@ -14,6 +14,9 @@ on:
       - 'portfolio-redis/**'
       - 'helm/**'
       - 'pom.xml'
+      - 'scripts/**'
+      - '.github/workflows/**'
+
   pull_request:
     branches: ["main", "develop", "test/**", "feature/**"]
     paths:
@@ -21,6 +24,9 @@ on:
       - 'portfolio-api/**'
       - 'helm/**'
       - 'pom.xml'
+      - 'scripts/**'
+      - '.github/workflows/**'
+
   workflow_dispatch:
 
 jobs:
