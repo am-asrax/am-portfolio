@@ -30,34 +30,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
-    name: Vault Sync & Setup
-    runs-on: self-hosted
-    outputs:
-      env_keys: ${{ steps.sync.outputs.env_keys }}
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Sync Secrets from Vault
-        id: sync
-        run: |
-
-          npm install --no-audit --no-fund --quiet
-          npm run sync:secrets
-
-          # Exporting secrets to GITHUB_ENV or as outputs if needed by the reusable workflow
-          # However, 'secrets: inherit' usually handles it if the keys are in GH Secrets.
-          # Here we are using Vault as the source.
-
   publish:
     name: Publish AM Portfolio
-    needs: setup
     permissions:
       contents: read
       packages: write
