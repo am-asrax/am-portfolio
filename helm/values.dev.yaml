@@ -55,9 +55,13 @@ postgresql:
 vault:
   enabled: true
   secretPaths:
-    database: "vault:kv/data/dev/database"
-    api: "vault:kv/data/dev/api"
-    basepath: "vault:kv/data/dev"
+    api: "secret/data/dev/apps/api"
+    config: "secret/data/dev/apps/config"
+    database: "secret/data/dev/apps/database"
+    paas: "secret/data/dev/apps/paas"
+    security: "secret/data/dev/apps/security"
+    portfolio: "secret/data/dev/apps/portfolio"
+
 
 # Monitoring Configuration
 monitoring:

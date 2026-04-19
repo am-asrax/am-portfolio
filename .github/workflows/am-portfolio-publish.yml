@@ -46,10 +46,8 @@ jobs:
 
       - name: Sync Secrets from Vault
         id: sync
-        env:
-          VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
-          VAULT_URI: "https://vault-local.munish.org"
         run: |
+
           npm install --no-audit --no-fund --quiet
           npm run sync:secrets
 

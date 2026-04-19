@@ -3,14 +3,29 @@ const path = require('path');
 const net = require('net');
 
 // Configuration
-// Dummy commit to trigger pipeline test
 const ENV_PATH = path.join(__dirname, '..', '.env');
-const VAULT_URI = process.env.VAULT_URI || 'https://vault-local.munish.org';
-const VAULT_TOKEN = process.env.VAULT_TOKEN;
-if (!VAULT_TOKEN) {
-    console.error('[ERROR] VAULT_TOKEN is missing! Please set it in your environment.');
-    process.exit(1);
+const DEFAULT_CREDS_PATH = path.join(__dirname, '..', '..', 'am-infra', 'infrastructure-secrets', 'latest', 'credentials.txt');
+
+let VAULT_URI = process.env.VAULT_URI || 'https://vault-local.munish.org';
+let VAULT_TOKEN = process.env.VAULT_TOKEN;
+
+function parseCredentials(filePath) {
+    if (!fs.existsSync(filePath)) {
+        console.warn(`[WARN] Credentials file not found at ${filePath}`);
+        return null;
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    
+    // Exact regex logic from am-auth to find Vault Token and URL
+    const tokenMatch = content.match(/Token:\s*(hvs\.[a-zA-Z0-9]+)/);
+    const urlMatch = content.match(/Vault URL:\s*(https?:\/\/[^\s]+)/);
+
+    return {
+        token: tokenMatch ? tokenMatch[1] : null,
+        url: urlMatch ? urlMatch[1] : null
+    };
 }
+
 
 // The "Perfect" Vault paths provided by the user
 const VAULT_SUBPATHS = [
@@ -82,8 +97,30 @@ async function checkConnectivity(host, port, name) {
 }
 
 async function sync() {
+    // Resolve Vault Credentials
+    if (!VAULT_TOKEN) {
+        console.log(`[VAULT] VAULT_TOKEN not found in environment, checking ${DEFAULT_CREDS_PATH}...`);
+        const creds = parseCredentials(DEFAULT_CREDS_PATH);
+        if (creds) {
+            if (creds.token) {
+                VAULT_TOKEN = creds.token;
+                console.log('[VAULT] Token resolved from credentials file.');
+            }
+            if (creds.url) {
+                VAULT_URI = creds.url;
+                console.log(`[VAULT] URL resolved from credentials file: ${VAULT_URI}`);
+            }
+        }
+    }
+
+    if (!VAULT_TOKEN) {
+        console.error('[ERROR] VAULT_TOKEN not found in environment or credentials file!');
+        process.exit(1);
+    }
+
     const existingEnv = await loadEnv();
     let aggregatedVaultSecrets = {};
+
 
     console.log('[VAULT] Beginning multi-path scan...');
     const vaultDataResults = await Promise.all(VAULT_SUBPATHS.map(subpath => fetchFromVaultPath(subpath)));

@@ -17,3 +17,11 @@ monitoring:
     scrape: true
     port: "8060"
     path: "/actuator/prometheus"
+
+global:
+  vault:
+    enabled: true
+    role: "am-backend-role"
+    authPath: "auth/kubernetes"
+    address: "http://vault.vault.svc.cluster.local:8200"
+
