@@ -1,6 +1,9 @@
 # Base Environment Configuration
 environment: dev
 
+nameOverride: "am-portfolio"
+fullnameOverride: "am-portfolio"
+
 image:
   repository: ghcr.io/am-portfolio/am-portfolio
   tag: latest

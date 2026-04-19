@@ -45,6 +45,6 @@ jobs:
       dev_namespace: 'dev'
       preprod_namespace: 'preprod'
       prod_namespace: 'prod'            
-      deploy_dev: true
-      deploy_prod: true
+      deploy_dev: false
+      deploy_prod: false
     secrets: inherit

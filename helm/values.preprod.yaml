@@ -1,6 +1,9 @@
 # Pre-production Environment Configuration
 environment: preprod
 
+nameOverride: "am-portfolio"
+fullnameOverride: "am-portfolio"
+
 # Application Configuration
 config:
   marketData:
