@@ -1,0 +1,24 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "am-portfolio.fullname" . }}
+  labels:
+    {{- include "am-portfolio.labels" . | nindent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+    - host: am.munish.org
+      http:
+        paths:
+          - path: /portfolio
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "am-portfolio.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+{{- end }}

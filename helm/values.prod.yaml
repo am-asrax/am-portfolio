@@ -1,5 +1,5 @@
 # Pre-production Environment Configuration
-environment: preprod
+environment: prod
 
 # Application Configuration
 config:
@@ -35,22 +35,25 @@ postgresql:
   auth:
     database: portfolio
     username: postgres
-    password: password
+    password: ""
   primary:
     service:
-      port: 5456
+      port: 5452
 
 
 # Vault Configuration
 vault:
   enabled: true
   secretPaths:
-    api: "secret/data/prod/apps/api"
-    config: "secret/data/prod/apps/config"
-    database: "secret/data/prod/apps/database"
-    paas: "secret/data/prod/apps/paas"
-    security: "secret/data/prod/apps/security"
-    portfolio: "secret/data/prod/apps/portfolio"
+    infra: "kv/data/prod/infra"
+    mongo: "kv/data/prod/apps/portfolio/database/mongo"
+    redis: "kv/data/prod/apps/portfolio/database/redis"
+    postgres: "kv/data/prod/apps/portfolio/database/postgres"
+    influx: "kv/data/prod/apps/portfolio/database/influxdb"
+    kafka: "kv/data/prod/apps/portfolio/kafka"
+    upstox: "kv/data/prod/apps/portfolio/api/upstock"
+    zerodha: "kv/data/prod/apps/portfolio/api/zerodha"
+    app: "kv/data/prod/apps/portfolio"
 
 
 # Monitoring Configuration

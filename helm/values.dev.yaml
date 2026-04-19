@@ -46,21 +46,24 @@ postgresql:
   auth:
     database: portfolio
     username: postgres
-    password: password
+    password: ""
   primary:
     service:
-      port: 5456
+      port: 5452
 
 # Vault Configuration
 vault:
   enabled: true
   secretPaths:
-    api: "secret/data/dev/apps/api"
-    config: "secret/data/dev/apps/config"
-    database: "secret/data/dev/apps/database"
-    paas: "secret/data/dev/apps/paas"
-    security: "secret/data/dev/apps/security"
-    portfolio: "secret/data/dev/apps/portfolio"
+    infra: "kv/data/dev/infra"
+    mongo: "kv/data/dev/apps/portfolio/database/mongo"
+    redis: "kv/data/dev/apps/portfolio/database/redis"
+    postgres: "kv/data/dev/apps/portfolio/database/postgres"
+    influx: "kv/data/dev/apps/portfolio/database/influxdb"
+    kafka: "kv/data/dev/apps/portfolio/kafka"
+    upstox: "kv/data/dev/apps/portfolio/api/upstock"
+    zerodha: "kv/data/dev/apps/portfolio/api/zerodha"
+    app: "kv/data/dev/apps/portfolio"
 
 
 # Monitoring Configuration

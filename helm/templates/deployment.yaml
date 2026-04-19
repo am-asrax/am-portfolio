@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "am-portfolio.fullname" . }}
+  labels:
+    {{- include "am-portfolio.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "am-portfolio.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: {{ .Values.vault.role | default "am-portfolio" | quote }}
+        # Infra Secrets
+        vault.hashicorp.com/agent-inject-secret-infra: "{{ .Values.vault.secretPaths.infra }}"
+        vault.hashicorp.com/agent-inject-template-infra: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.infra "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+        # MongoDB Secrets
+        vault.hashicorp.com/agent-inject-secret-mongodb: "{{ .Values.vault.secretPaths.mongo }}"
+        vault.hashicorp.com/agent-inject-template-mongodb: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.mongo "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+        # Redis Secrets
+        vault.hashicorp.com/agent-inject-secret-redis: "{{ .Values.vault.secretPaths.redis }}"
+        vault.hashicorp.com/agent-inject-template-redis: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.redis "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+        # Postgres Secrets
+        vault.hashicorp.com/agent-inject-secret-postgres: "{{ .Values.vault.secretPaths.postgres }}"
+        vault.hashicorp.com/agent-inject-template-postgres: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.postgres "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+        # InfluxDB Secrets
+        vault.hashicorp.com/agent-inject-secret-influxdb: "{{ .Values.vault.secretPaths.influx }}"
+        vault.hashicorp.com/agent-inject-template-influxdb: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.influx "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+        # Kafka Secrets
+        vault.hashicorp.com/agent-inject-secret-kafka: "{{ .Values.vault.secretPaths.kafka }}"
+        vault.hashicorp.com/agent-inject-template-kafka: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.kafka "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+        # Upstox Secrets
+        vault.hashicorp.com/agent-inject-secret-upstox: "{{ .Values.vault.secretPaths.upstox }}"
+        vault.hashicorp.com/agent-inject-template-upstox: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.upstox "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+        # Zerodha Secrets
+        vault.hashicorp.com/agent-inject-secret-zerodha: "{{ .Values.vault.secretPaths.zerodha }}"
+        vault.hashicorp.com/agent-inject-template-zerodha: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.zerodha "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+        # App Secrets
+        vault.hashicorp.com/agent-inject-secret-portfolio: "{{ .Values.vault.secretPaths.app }}"
+        vault.hashicorp.com/agent-inject-template-portfolio: |
+          {{ print "{{- with secret \"" .Values.vault.secretPaths.app "\" -}}" }}
+          {{ print "{{- range $k, $v := .Data.data -}}" }}
+          export {{ print "{{ $k }}=\"{{ $v }}\"" }}
+          {{ print "{{- end -}}" }}
+          {{ print "{{- end -}}" }}
+      labels:
+        {{- include "am-portfolio.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8060
+              protocol: TCP
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              # Source all vault secrets
+              for f in /vault/secrets/*; do
+                [ -f "$f" ] && . "$f"
+              done
+              # Start the application
+              java -Xmx512m -jar /app.jar
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.environment }}

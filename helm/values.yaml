@@ -1,4 +1,11 @@
 # Base Environment Configuration
+environment: dev
+
+image:
+  repository: ghcr.io/am-portfolio/am-portfolio
+  tag: latest
+  pullPolicy: IfNotPresent
+
 config:
   marketData:
     maxRetries: 3
@@ -11,17 +18,34 @@ service:
   type: ClusterIP
   port: 8060
 
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1024Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+vault:
+  enabled: true
+  secretPaths:
+    infra: "kv/data/dev/infra"
+    mongo: "kv/data/dev/apps/portfolio/database/mongo"
+    redis: "kv/data/dev/apps/portfolio/database/redis"
+    postgres: "kv/data/dev/apps/portfolio/database/postgres"
+    influx: "kv/data/dev/apps/portfolio/database/influxdb"
+    kafka: "kv/data/dev/apps/portfolio/kafka"
+    upstox: "kv/data/dev/apps/portfolio/api/upstock"
+    zerodha: "kv/data/dev/apps/portfolio/api/zerodha"
+    app: "kv/data/dev/apps/portfolio"
+
 monitoring:
   enabled: true
   prometheus:
     scrape: true
     port: "8060"
     path: "/actuator/prometheus"
-
-global:
-  vault:
-    enabled: true
-    role: "am-backend-role"
-    authPath: "auth/kubernetes"
-    address: "http://vault.vault.svc.cluster.local:8200"
 
