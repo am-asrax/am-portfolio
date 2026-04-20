@@ -11,9 +11,19 @@ config:
     maxAgeMinutes: 15
 
 image:
-  repository: ghcr.io/am-portfolio/am-portfolio
+  repository: am-portfolio
   tag: dev
   pullPolicy: Always
+
+global:
+  image:
+    imagePullSecrets:
+      - name: "ghcr-secret"
+  vault:
+    serviceAccountName: "am-backend-sa"
+
+security:
+  automountServiceAccountToken: true
 
 nameOverride: "am-portfolio"
 fullnameOverride: "am-portfolio"

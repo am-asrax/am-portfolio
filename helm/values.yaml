@@ -5,9 +5,19 @@ nameOverride: "am-portfolio"
 fullnameOverride: "am-portfolio"
 
 image:
-  repository: ghcr.io/am-portfolio/am-portfolio
+  repository: am-portfolio
   tag: latest
   pullPolicy: IfNotPresent
+
+global:
+  image:
+    imagePullSecrets:
+      - name: "ghcr-secret"
+  vault:
+    serviceAccountName: "am-backend-sa"
+
+security:
+  automountServiceAccountToken: true
 
 config:
   marketData:

@@ -65,3 +65,4 @@ application-*.yml
 ! .env.example
 
 am-portfolio-sdk/Ci-cd-implementation.md
+scratch/
