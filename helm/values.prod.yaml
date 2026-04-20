@@ -68,9 +68,19 @@ monitoring:
     path: "/actuator/prometheus"
 
 image:
-  repository: ghcr.io/am-portfolio/am-portfolio
+  repository: am-portfolio
   tag: prod
   pullPolicy: IfNotPresent
+
+global:
+  image:
+    imagePullSecrets:
+      - name: "ghcr-secret"
+  vault:
+    serviceAccountName: "am-backend-sa"
+
+security:
+  automountServiceAccountToken: true
 
 deployment:
   version: prod

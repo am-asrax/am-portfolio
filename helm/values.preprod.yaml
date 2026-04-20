@@ -14,9 +14,19 @@ config:
     maxAgeMinutes: 15
 
 image:
-  repository: ghcr.io/am-portfolio/am-portfolio
+  repository: am-portfolio
   tag: preprod
   pullPolicy: IfNotPresent
+
+global:
+  image:
+    imagePullSecrets:
+      - name: "ghcr-secret"
+  vault:
+    serviceAccountName: "am-backend-sa"
+
+security:
+  automountServiceAccountToken: true
 
 deployment:
   version: preprod
