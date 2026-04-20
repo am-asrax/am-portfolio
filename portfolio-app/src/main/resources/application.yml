@@ -123,7 +123,7 @@ app:
       topic: ${MARKET_INDEX_TOPIC}
 
 server:
-  port: 8060
+  port: 8080
   servlet:
     context-path: /
   tomcat:
@@ -157,3 +157,11 @@ logging:
     "[com.am.common]": DEBUG
     "[com.am.common.amcommondata]": DEBUG
     org.springframework.kafka: INFO
+
+management:
+  endpoints:
+    web:
+      base-path: "/"
+  endpoint:
+    health:
+      show-details: always

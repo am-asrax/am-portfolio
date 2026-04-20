@@ -16,7 +16,7 @@ config:
 # Service Configuration
 service:
   type: ClusterIP
-  port: 8060
+  port: 8080
 
 # Ingress Configuration
 ingress:
@@ -64,8 +64,8 @@ monitoring:
   enabled: true
   prometheus:
     scrape: true
-    port: "8060"
-    path: "/actuator/prometheus"
+    port: "8080"
+    path: "/prometheus"
 
 image:
   repository: am-portfolio

@@ -29,7 +29,7 @@ config:
 
 service:
   type: ClusterIP
-  port: 8060
+  port: 8080
 
 ingress:
   enabled: false
@@ -59,6 +59,6 @@ monitoring:
   enabled: true
   prometheus:
     scrape: true
-    port: "8060"
-    path: "/actuator/prometheus"
+    port: "8080"
+    path: "/prometheus"
 
