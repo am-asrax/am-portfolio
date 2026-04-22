@@ -1,21 +1,25 @@
-# Multi-stage build for Portfolio Service
+# Multi-stage build for Portfolio Service (Unified Monorepo)
 # Stage 1: Build with Maven
 ARG BASE_REGISTRY=""
 FROM ${BASE_REGISTRY}am-java-maven-base:latest AS build
 
-# Build arguments for GitHub authentication (needed for private dependencies)
+# Build arguments for GitHub authentication
 ARG GITHUB_PACKAGES_USERNAME
 ARG GITHUB_PACKAGES_TOKEN
 
 WORKDIR /build
 
-# Copy the entire project for multi-module build
+# Copy settings.xml to Maven config directory
+COPY settings.xml /root/.m2/settings.xml
+
+# Copy the entire project for unified build
 COPY . .
 
-# Build the application
-# We need to pass the GitHub credentials to Maven so it can pull private dependencies
+# Build everything in one go
+# Because am-common-data is now a module in the root POM, 
+# Maven will build it and make it available to other modules automatically.
 RUN GITHUB_PACKAGES_USERNAME=${GITHUB_PACKAGES_USERNAME} GITHUB_PACKAGES_TOKEN=${GITHUB_PACKAGES_TOKEN} \
-    mvn clean package -DskipTests -B
+    mvn clean package -DskipTests -B -s settings.xml
 
 # Stage 2: Runtime with JRE 21
 FROM eclipse-temurin:21-jdk-jammy
